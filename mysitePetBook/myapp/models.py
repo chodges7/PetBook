@@ -12,6 +12,8 @@ class Profile(models.Model):
 
 class Pet(models.Model):
     pet_name = models.CharField(max_length=50)
+    pet_species = models.CharField(max_length=20)
+    pet_breed = models.CharField(max_length=20)
     pet_owner = models.ForeignKey(Profile, on_delete=models.CASCADE)
     
     def __str__(self);

@@ -3,9 +3,14 @@ from django.contrib.auth.models import User
 from django import forms
 
 class ProfileForm(forms.Form):
-    Profile_Bio
+    profile_bio = forms.CharField(label='Your Bio', max_length=500)
+    profile_fname = forms.CharField(lebel='Your first name', max_length=50)
+    profile_lname = forms.CharField(lebel='Your last name', max_length=50)
 
-
+class PetForm(forms.Form):
+    pet_name = forms.CharField(label="Your pet's name", max_length=50)
+    pet_species = forms.CharField(label="Your pet's species", max_length=20)
+    pet_breed = forms.CharField(label="Your pet's breed", max_length=20)
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(
