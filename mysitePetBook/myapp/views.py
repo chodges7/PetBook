@@ -6,9 +6,21 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-@login_required(login_url="/login/")
+
+from . import models
+from . import forms
+
+#@login_required(login_url="/login/")
+#def index(request):
+#    return HttpResponse("Hello World")
+
+@login_required(redirect_field_name='/', login_url="/login/")
 def index(request):
-    return HttpResponse("Hello World")
+    context = {
+        "body":"PetBook Template Variable",
+        "title":"PetBook Hello"
+    }
+    return render(request, "page.html", context=context)
 
 def logout_view(request):
     logout(request)
