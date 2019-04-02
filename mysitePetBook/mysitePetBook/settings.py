@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '#gr45efan4_6*3^c2(phqxup^_rw2dyl=q=4)v-42#ge17td1t'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['35.212.140.173']
+ALLOWED_HOSTS = ['35.212.140.173','35.230.18.30']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'myapp',
 ]
 
 MIDDLEWARE = [
@@ -74,10 +75,18 @@ WSGI_APPLICATION = 'mysitePetBook.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default':{
+         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+         'NAME': 'PetBook_project',
+         'USER': 'PetBook_user',
+         'PASSWORD': 'PetBook_password',
+         'HOST': '35.230.18.30',
+         'PORT': '5432',
+     }
+    #'default': {
+    #    'ENGINE': 'django.db.backends.sqlite3',
+    #    'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    #}
 }
 
 
