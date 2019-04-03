@@ -6,6 +6,7 @@ class Profile(models.Model):
     profile_fname = models.CharField(max_length=50)
     profile_lname = models.CharField(max_length=50)
     profile_bio = models.CharField(max_length=500)
+    profile_user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     #def __str__(self):
     #    return 
@@ -16,5 +17,5 @@ class Pet(models.Model):
     pet_breed = models.CharField(max_length=20)
     pet_owner = models.ForeignKey(Profile, on_delete=models.CASCADE)
     
-    def __str__(self);
-        return self.pet_name
+    #def __str__(self)
+    #    return self.pet_name

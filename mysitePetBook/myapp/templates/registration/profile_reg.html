@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Profile Registration{% endblock %}
+{% block content %}
+<div class="grid-x grid-padding-x">
+	<!-- <div class="large-4 medium-4 small-12 cell"></div> -->
+	<div class="large-4 medium-4 small-12 large-offset-4 medium-offset-4 cell">
+		<form action="/profile_reg/" method="post">
+			{% csrf_token %}
+			<h4 class="text-center">Register your profile</h4>
+			{{ form.errors }}
+			{{ form.profile_fname.label_tag }}
+			{{ form.profile_fname }}
+			{{ form.profile_lname.label_tag }}
+			{{ form.profile_lname }}
+			{{ form.profile_bio.label_tag }}
+			{{ form.profile_bio }}
+			<input type="submit" class="button expanded" value="Register" />
+		</form>
+	</div>
+</div>
+{% endblock %}
