@@ -7,31 +7,37 @@
 <div>
 	{{ body }}
 	{% if user.is_authenticated %}
-	{% verbatim %}
-	<div class="card-info secondary grid-padding-x">
-		<div class="card-info-content">
-			<h3 class="lead">{{ todo.suggestion }}</h3>
-			<p>authored by {{ todo.author }} on {{ todo.created_on }}</p>
-			<p>{{ todo.num_comments }} comment(s)</p>
+
+	<div id="app-4">
+		<div v-for="todo in pets" >
+			{% verbatim %}
+			<div class="card-info secondary grid-padding-x">
+				<div class="card-info-content">
+					<h3 class="lead">{{ todo.pet }}</h3>
+					<p>is a {{ todo.breed }} {{ todo.species }}</p>
+					<p>They're owned by {{ todo.owner }}</p>
+				</div>
+			</div>
+			{% endverbatim %}
 		</div>
 	</div>
-	{% endverbatim %}
 	{% endif %}
 	{% if request.user|has_group:"Has Profiles" %}
 	<div>
-		<h4>Welcome {{ profile.Profile_fname  }} {{ profile.Profile_lname }} </h4>
-		<p>	{{ profile.Profile_bio }}</p>
-	</div>
-	{% else %}
-	<div>
-		<h4>If you are seeing this then you need to create a profile</h4>
-		<a href="/profile_reg/">Click here to make one.</a>
-	</div>
-	{% endif %}
-</div>
-{% endblock %}
+		<!--<h4>Welcome {{ profile.Profile_fname  }} {{ profile.Profile_lname }} </h4>
+	  <p>	{{ profile.Profile_bio }}</p> 
+	  --!>
+	  </div>
+	  {% else %}
+	  <div>
+	  <h4>If you are seeing this then you need to create a profile</h4>
+	  <a href="/profile_reg/">Click here to make one.</a>
+	  </div>
+	  {% endif %}
+	  </div>
+	  {% endblock %}
 
-{% block scripts %}
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="{% static "js/myvue.js" %}"></script>
-{% endblock %}
+	  {% block scripts %}
+	  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	  <script src="{% static "js/myvue.js" %}"></script>
+	  {% endblock %}
