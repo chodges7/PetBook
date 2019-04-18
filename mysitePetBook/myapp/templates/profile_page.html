@@ -5,8 +5,8 @@
 {% block content %}
 <div>
 	{{ body }}
-	<h5><a href = "/pet_reg/">Would you like to add a pet?</a></h5>
 	{% if user.is_authenticated %}
+	<h5><a href = "/pet_reg/">Would you like to add a pet?</a></h5>
 	<div id="app-4">
 		<div v-for="todo in pets" >
 			{% verbatim %}

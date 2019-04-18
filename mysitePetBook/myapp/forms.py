@@ -33,11 +33,11 @@ class RegistrationForm(UserCreationForm):
         user = super(RegistrationForm, self).save(commit=False)
         user.email = self.cleaned_data["email"]
         if commit:
-            x = user.save()
+            user.save()
             new_pro = models.Profile()
+            new_pro.profile_user = user
             new_pro.profile_bio = self.cleaned_data["profile_bio"]
             new_pro.profile_fname = self.cleaned_data["profile_fname"]
             new_pro.profile_lname = self.cleaned_data["profile_lname"]
-            new_pro.profile_user = x;
-            
+            new_pro.save()
         return user

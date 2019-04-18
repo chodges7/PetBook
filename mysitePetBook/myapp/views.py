@@ -67,7 +67,7 @@ def pets_json(request):
     resp_list = {}
     resp_list["pets"] = []
     for item in i_list:
-        prof = models.Profile.objects.filter(profile_user=item.pet_owner)[0]
+        prof = models.Profile.objects.get(profile_user=item.pet_owner)
         resp_list["pets"] += [{
             "pet":item.pet_name,
             "species":item.pet_species,
@@ -75,4 +75,4 @@ def pets_json(request):
             "breed":item.pet_breed,
             "owner":prof.profile_fname,
             }]
-        return JsonResponse(resp_list)
+    return JsonResponse(resp_list)
