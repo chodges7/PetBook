@@ -8,14 +8,16 @@ class Profile(models.Model):
     profile_bio = models.CharField(max_length=500)
     profile_user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    #def __str__(self):
-    #    return 
+    def __str__(self):
+        x = self.profile_fname + " " + self.profile_lname
+        return x
 
 class Pet(models.Model):
     pet_name = models.CharField(max_length=50)
     pet_species = models.CharField(max_length=20)
     pet_breed = models.CharField(max_length=20)
-    pet_owner = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    pet_owner = models.ForeignKey(User, on_delete=models.CASCADE)
     
-    #def __str__(self)
-    #    return self.pet_name
+    def __str__(self):
+        x = self.pet_name + " the " + self.pet_breed + " " + self.pet_species
+        return x

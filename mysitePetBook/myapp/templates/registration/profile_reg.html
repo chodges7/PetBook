@@ -13,8 +13,13 @@
 			{{ form.profile_fname }}
 			{{ form.profile_lname.label_tag }}
 			{{ form.profile_lname }}
-			{{ form.profile_bio.label_tag }}
-			{{ form.profile_bio }}
+			<div class="row">
+				<div class="large-12 columns">
+					<label>{{ form.profile_bio.label_tag }}
+						<textarea placeholder="Type bio here!"></textarea>
+					</label>
+				</div>
+			</div>
 			<input type="submit" class="button expanded" value="Register" />
 		</form>
 	</div>

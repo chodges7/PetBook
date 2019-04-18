@@ -2,6 +2,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 
+from . import models
+
 class ProfileForm(forms.Form):
     profile_bio = forms.CharField(label='Your Bio', max_length=500)
     profile_fname = forms.CharField(label='Your first name', max_length=50)
@@ -18,6 +20,10 @@ class RegistrationForm(UserCreationForm):
         required=True
         )
 
+    profile_bio = forms.CharField(label='Your Bio', max_length=500)
+    profile_fname = forms.CharField(label='Your first name', max_length=50)
+    profile_lname = forms.CharField(label='Your last name', max_length=50)
+    
     class Meta:
         model = User
         fields = ("username", "email",
@@ -27,5 +33,11 @@ class RegistrationForm(UserCreationForm):
         user = super(RegistrationForm, self).save(commit=False)
         user.email = self.cleaned_data["email"]
         if commit:
-            user.save()
+            x = user.save()
+            new_pro = models.Profile()
+            new_pro.profile_bio = self.cleaned_data["profile_bio"]
+            new_pro.profile_fname = self.cleaned_data["profile_fname"]
+            new_pro.profile_lname = self.cleaned_data["profile_lname"]
+            new_pro.profile_user = x;
+            
         return user

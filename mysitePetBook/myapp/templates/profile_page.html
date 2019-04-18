@@ -5,10 +5,9 @@
 
 {% block content %}
 <div>
-<!-- {{ body }} --!>
+	{{ body }}
 	{% if user.is_authenticated %}
-	<!-- 
-	 <div id="app-4">
+	<div id="app-4">
 		<div v-for="todo in pets" >
 			{% verbatim %}
 			<div class="card-info secondary grid-padding-x">
@@ -21,7 +20,6 @@
 			{% endverbatim %}
 		</div>
 	</div> 
-	--!>
 	{% endif %}
 </div>
 {% endblock %}

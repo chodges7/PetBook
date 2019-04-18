@@ -13,71 +13,35 @@ from . import forms
 
 @login_required(redirect_field_name='/', login_url="/login/")
 def index(request):
-    #profileList = models.Profile.objects.all()
-    #for i in profileList:
-    #    if request.User == profileList[i].Profile_user:
-    #        profile_int = profileList[i]
-    #profile_int = request.User.Profile
-    context = {
-        "body":"PetBook Template Variable",
-        "title":"PetBook Hello",
-        #"profile":profile_int
-    }
-    return render(request, "page.html", context=context)
+    return redirect("/profile_page/")
 
 @login_required(redirect_field_name='/', login_url="/login/")
-def profile_reg(request):
-    if request.method == "POST":
-        form_instance = forms.ProfileForm(request.POST)
-        if form_instance.is_valid():
-            group = Group.objects.get(name='Has Profiles')
-            new_pro = models.Profile()
-            new_pro.profile_fname = form_instance.cleaned_data["profile_fname"]
-            new_pro.profile_lname = form_instance.cleaned_data["profile_lname"]
-            new_pro.profile_bio = form_instance.cleaned_data["profile_bio"]
-            new_pro.profile_user = request.user
-            new_pro.save()
-            request.user.groups.add(group)
-            form_instance = forms.ProfileForm()
-            return redirect("/")
-    else:
-        form_instance = forms.ProfileForm()
+def profile_page(request):
     context = {
-        "form":form_instance,
+        "body":"Welcome to your profile page",
+        "title":"Profile page",
     }
-    return render(request, "registration/profile_reg.html", context=context)
+    return render(request, "profile_page.html", context=context)
 
 @login_required(redirect_field_name='/', login_url="/login/")
 def pet_reg(request):
     if request.method == "POST":
         form_instance = forms.PetForm(request.POST)
         if form_instance.is_valid():
-            group = Group.objects.get(name='Has Profiles')
-            new_pro = models.Profile()
-            new_pro.profile_fname = form_instance.cleaned_data["profile_fname"]
-            new_pro.profile_lname = form_instance.cleaned_data["profile_lname"]
-            new_pro.profile_bio = form_instance.cleaned_data["profile_bio"]
-            new_pro.profile_user = request.user
+            new_pro = models.Pet()
+            new_pro.pet_name = form_instance.cleaned_data["pet_name"]
+            new_pro.pet_species = form_instance.cleaned_data["pet_species"]
+            new_pro.pet_breed = form_instance.cleaned_data["pet_breed"]
+            new_pro.pet_owner = request.user
             new_pro.save()
-            request.user.groups.add(group)
-            form_instance = forms.ProfileForm()
+            form_instance = forms.PetForm()
             return redirect("/")
     else:
-        form_instance = forms.ProfileForm()
+        form_instance = forms.PetForm()
     context = {
         "form":form_instance,
     }
-    return render(request, "registration/profile_reg.html", context=context)
-
-def login_view(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    request.user = authenticate(request, username=username, password=password)
-    if request.user is not None:
-        login(request, request.user)
-        return redirect("/")
-    else:
-        return redirect("/login/")
+    return render(request, "registration/pet_reg.html", context=context)
 
 def logout_view(request):
     logout(request)
@@ -88,12 +52,12 @@ def register(request):
         form_instance = forms.RegistrationForm(request.POST)
         if form_instance.is_valid():
             form_instance.save()
-            return redirect("/profile_reg/")
+            return redirect("/")
     else:
         form_instance = forms.RegistrationForm()
     context = {
-        "form":form_instance,
-    }
+            "form":form_instance,
+            }
     return render(request, "registration/register.html", context=context)
 
 def pets_json(request):
@@ -107,5 +71,5 @@ def pets_json(request):
             "id":item.id,
             "breed":item.pet_breed,
             "owner":item.pet_owner,
-        }]
-    return JsonResponse(resp_list)
+            }]
+        return JsonResponse(resp_list)
