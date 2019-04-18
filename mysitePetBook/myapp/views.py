@@ -11,11 +11,11 @@ from django.contrib.auth.decorators import login_required
 from . import models
 from . import forms
 
-@login_required(redirect_field_name='/', login_url="/login/")
+@login_required(redirect_field_name='/profile_page/', login_url="/login/")
 def index(request):
     return redirect("/profile_page/")
 
-@login_required(redirect_field_name='/', login_url="/login/")
+@login_required(redirect_field_name='/profile_page/', login_url="/login/")
 def profile_page(request):
     context = {
         "body":"Welcome to your profile page",
@@ -23,7 +23,7 @@ def profile_page(request):
     }
     return render(request, "profile_page.html", context=context)
 
-@login_required(redirect_field_name='/', login_url="/login/")
+@login_required(redirect_field_name='/profile_page/', login_url="/login/")
 def pet_reg(request):
     if request.method == "POST":
         form_instance = forms.PetForm(request.POST)
@@ -35,7 +35,7 @@ def pet_reg(request):
             new_pro.pet_owner = request.user
             new_pro.save()
             form_instance = forms.PetForm()
-            return redirect("/")
+            return redirect("/profile_page/")
     else:
         form_instance = forms.PetForm()
     context = {
@@ -43,6 +43,7 @@ def pet_reg(request):
     }
     return render(request, "registration/pet_reg.html", context=context)
 
+@login_required(redirect_field_name='/profile_page/', login_url="/login/")
 def logout_view(request):
     logout(request)
     return redirect("/login/")
@@ -60,16 +61,18 @@ def register(request):
             }
     return render(request, "registration/register.html", context=context)
 
+@login_required(redirect_field_name='/profile_page/', login_url="/login/")
 def pets_json(request):
     i_list = models.Pet.objects.all()
     resp_list = {}
     resp_list["pets"] = []
     for item in i_list:
+        prof = models.Profile.objects.filter(profile_user=item.pet_owner)[0]
         resp_list["pets"] += [{
             "pet":item.pet_name,
             "species":item.pet_species,
             "id":item.id,
             "breed":item.pet_breed,
-            "owner":item.pet_owner,
+            "owner":prof.profile_fname,
             }]
         return JsonResponse(resp_list)
