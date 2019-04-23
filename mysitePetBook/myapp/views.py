@@ -3,16 +3,53 @@
 
 from django.shortcuts import render
 from django.http import JsonResponse
-from django.shortcuts import redirect
 from django.contrib.auth import logout
 from django.contrib.auth.models import Group
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
-# Create your views here.
 
 from . import models
 from . import forms
+
+# Chat system views from bit.ly/herokuDjangoChatSystem
+
+import random
+import string
+from haikunator import Haikunator
+from django.db import transaction
+
+haikunator = Haikunator()
+
+@login_required(redirect_field_name='/profile_page/', login_url="/login/")
+def about(request):
+    return render(request, "chat/about.html")
+
+@login_required(redirect_field_name='/profile_page/', login_url="/login/")
+def new_room(request):
+    new_room = None
+    while not new_room:
+        with transaction.atomic():
+            label = haikunator.haikunate()
+            if models.Room.objects.filter(label=label).exists():
+                continue
+            new_room = models.Room.objects.create(label=label)
+    return redirect(chat_room, label=label)
+
+@login_required(redirect_field_name='/profile_page/', login_url="/login/")
+def chat_room(request, label):
+    room, created = models.Room.objects.get_or_create(label=label)
+
+    # Show the last 50 messages
+    messages = reversed(room.messages.order_by('-timestamp')[:50])
+
+    return render(request, "chat/room.html", {
+        'room':room,
+        'messages':messages,
+        })
+
+# Create your views here.
 
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
 def index(request):
@@ -21,14 +58,10 @@ def index(request):
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
 def profile_page(request):
     prof = models.Profile.objects.get(profile_user=request.user)
-    i_list = []
-    for i in models.Pet.objects.filter(pet_owner=request.user):
-        i_list += [i]
     context = {
             "body":"Welcome to your profile page",
             "title":"Profile page",
             "bio":prof.profile_bio,
-            "petList":i_list,
             }
     return render(request, "profile_page.html", context=context)
 
@@ -72,7 +105,7 @@ def register(request):
 
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
 def pets_json(request):
-    i_list = models.Pet.objects.all()
+    i_list = models.Pet.objects.filter(pet_owner=request.user)
     resp_list = {}
     resp_list["pets"] = []
     for item in i_list:
