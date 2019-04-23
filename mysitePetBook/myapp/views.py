@@ -17,10 +17,12 @@ def index(request):
 
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
 def profile_page(request):
+    prof = models.Profile.objects.get(profile_user=request.user)
     context = {
-        "body":"Welcome to your profile page",
-        "title":"Profile page",
-    }
+            "body":"Welcome to your profile page",
+            "title":"Profile page",
+            "bio":prof.profile_bio,
+            }
     return render(request, "profile_page.html", context=context)
 
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
@@ -39,8 +41,8 @@ def pet_reg(request):
     else:
         form_instance = forms.PetForm()
     context = {
-        "form":form_instance,
-    }
+            "form":form_instance,
+            }
     return render(request, "registration/pet_reg.html", context=context)
 
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
@@ -75,4 +77,4 @@ def pets_json(request):
             "breed":item.pet_breed,
             "owner":prof.profile_fname,
             }]
-    return JsonResponse(resp_list)
+        return JsonResponse(resp_list)
