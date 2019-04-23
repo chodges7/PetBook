@@ -1,3 +1,6 @@
+
+# IF YOU AUTO INDENT MAKE SURE RETURN IS CORRECTED ON LAST LINE
+
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -18,10 +21,14 @@ def index(request):
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
 def profile_page(request):
     prof = models.Profile.objects.get(profile_user=request.user)
+    i_list = []
+    for i in models.Pet.objects.filter(pet_owner=request.user):
+        i_list += [i]
     context = {
             "body":"Welcome to your profile page",
             "title":"Profile page",
             "bio":prof.profile_bio,
+            "petList":i_list,
             }
     return render(request, "profile_page.html", context=context)
 
@@ -75,6 +82,5 @@ def pets_json(request):
             "species":item.pet_species,
             "id":item.id,
             "breed":item.pet_breed,
-            "owner":prof.profile_fname,
-            }]
-        return JsonResponse(resp_list)
+            "owner":prof.profile_fname}]
+    return JsonResponse(resp_list)
