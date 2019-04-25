@@ -17,10 +17,7 @@ from . import forms
 
 import random
 import string
-from haikunator import Haikunator
 from django.db import transaction
-
-haikunator = Haikunator()
 
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
 def about(request):
