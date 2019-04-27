@@ -31,6 +31,23 @@ def profile_page(request):
     return render(request, "profile_page.html", context=context)
 
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
+def edit(request):
+    if request.method == "POST":
+        form_instance = forms.ProfileForm(request.POST)
+        if form_instance.is_valid():
+            prof = models.Profile.objects.get(profile_user=request.user)
+            prof.profile_fname = form_instance.cleaned_data["profile_fname"]
+            prof.profile_lname = form_instance.cleaned_data["profile_lname"]
+            prof.profile_bio = form_instance.cleaned_data["profile_bio"]
+            prof.save()
+            return redirect("/")
+    else:
+        form_instance = forms.ProfileForm()
+
+    context = { "form":form_instance, }
+    return render(request, "registration/edit.html", context=context)
+
+@login_required(redirect_field_name='/profile_page/', login_url="/login/")
 def pet_reg(request):
     if request.method == "POST":
         form_instance = forms.PetForm(request.POST)

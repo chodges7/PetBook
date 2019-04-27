@@ -5,7 +5,7 @@
 {% block content %}
 <div>
 	{% if user.is_authenticated %}
-	<div class="grid-x">
+	<div class="grid-x medium-offset-1 small-offset-1">
 		<div class="row columns large-offset-1">
 			<h3>{{ body }}</h3>
 		</div>
@@ -13,9 +13,8 @@
 			<div class="card-info secondary grid-padding-x">
 				<div class="card-info-content">
 					<h4>Your bio:</h4>
-					<h5>{{ bio }}</h5>
-					<p>
-					<h6><a href = "/bio_edit/">Would you like to edit your profile?</a></h6>
+					<h5>{{ bio }}</h5><p>
+					<h6><a href = "/edit/">Would you like to edit your profile?</a></h6>
 				</div>
 			</div>
 		</div>
@@ -29,7 +28,7 @@
 							<div class="card-info secondary grid-padding-x">
 								<div class="card-info-content">
 									<h3 class="lead">{{ todo.pet }}</h3>
-									<p>is a {{ todo.breed }} {{ todo.species }}</p>
+									<h5>is a {{ todo.breed }} {{ todo.species }}</h5>
 								</div>
 							</div>
 							{% endverbatim %}
