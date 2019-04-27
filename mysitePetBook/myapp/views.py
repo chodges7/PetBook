@@ -21,14 +21,12 @@ def index(request):
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
 def profile_page(request):
     prof = models.Profile.objects.get(profile_user=request.user)
-    i_list = []
-    for i in models.Pet.objects.filter(pet_owner=request.user):
-        i_list += [i]
+    welc = "Welcome to your profile page: "
+    welc += prof.profile_fname + " " + prof.profile_lname
     context = {
-            "body":"Welcome to your profile page",
+            "body":welc,
             "title":"Profile page",
             "bio":prof.profile_bio,
-            "petList":i_list,
             }
     return render(request, "profile_page.html", context=context)
 
@@ -72,7 +70,7 @@ def register(request):
 
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
 def pets_json(request):
-    i_list = models.Pet.objects.all()
+    i_list = models.Pet.objects.filter(pet_owner=request.user)
     resp_list = {}
     resp_list["pets"] = []
     for item in i_list:

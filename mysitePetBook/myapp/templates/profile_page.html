@@ -4,50 +4,49 @@
 
 {% block content %}
 <div>
-	{{ body }}
 	{% if user.is_authenticated %}
-	<div class="large-10 cell medium-10 small-10 large-offset-1">
-		<div class="card-info secondary grid-padding-x">
-			<div class="card-info-content">
-				<h5>Your bio:</h5>
-				{{ bio }}
+	<div class="grid-x">
+		<div class="row columns large-offset-1">
+			<h3>{{ body }}</h3>
+		</div>
+		<div class="large-10 cell medium-10 small-10 large-offset-1">
+			<div class="card-info secondary grid-padding-x">
+				<div class="card-info-content">
+					<h5>Your bio:</h5>
+					{{ bio }}
+				</div>
 			</div>
 		</div>
-	</div>
-	<div class="large-10 cell medium-10 small-10 large-offset-1">
-		<div class="card-info secondary grid-padding-x">
-			<div class="card-info-content">
-				<h5>Your pets:</h5>
-				<!--
-				<div id="app-4">
-					<div v-for="todo in pets" >
-						{% verbatim %}
-						<div class="card-info secondary grid-padding-x">
-							<div class="card-info-content">
-								<h3 class="lead">{{ todo.pet }}</h3>
-								<p>is a {{ todo.breed }} {{ todo.species }}</p>
-								<p>They're owned by {{ todo.owner }}</p>
+		<div class="large-10 cell medium-10 small-10 large-offset-1">
+			<div class="card-info secondary grid-padding-x">
+				<div class="card-info-content">
+					<h5>Your pets:</h5>
+					<div id="app-4">
+						<div v-for="todo in pets" >
+							{% verbatim %}
+							<div class="card-info secondary grid-padding-x">
+								<div class="card-info-content">
+									<h3 class="lead">{{ todo.pet }}</h3>
+									<p>is a {{ todo.breed }} {{ todo.species }}</p>
+								</div>
 							</div>
+							{% endverbatim %}
 						</div>
-						{% endverbatim %}
-					</div>
-				</div> 
-				--!>
-				<!-- this is the wrong type of for loop, go back to suggestion list --!>
-				<div v-for="todo in {{ petList }}" >
-					{% verbatim %}
-					<div class="card-info secondary grid-padding-x">
-						<div class="card-info-content">
-							<h3 class="lead">{{ todo.pet }}</h3>
-							<p>is a {{ todo.breed }} {{ todo.species }}</p>
-							<p>They're owned by {{ todo.owner }}</p>
-						</div>
-					</div>
-					{% endverbatim %}
-				</div> 
-				<h5><a href = "/pet_reg/">Would you like to add a pet?</a></h5>
+					</div> 
+					<h6><a href = "/pet_reg/">Would you like to add a pet?</a></h6>
+				</div>
 			</div>
 		</div>
+		<!--
+		<div class="large-10 cell medium-10 small-10 large-offset-1">
+			<div class="card-info secondary grid-padding-x">
+				<div class="card-info-content">
+					<h5>Chat system:</h5>
+					<h6><a href = "/new_room/">New chat room</a></h6>
+				</div>
+			</div>
+		</div>
+		--!>
 	</div>
 	{% endif %}
 </div>
