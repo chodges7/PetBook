@@ -16,27 +16,17 @@
 			<div class="top-bar-left">
 				<ul class="dropdown menu" data-dropdown-menu>
 					<li class="menu-text">PetBook</li>
-					<!-- <li>
-	     <a>One</a>
-	     <ul class="menu vertical">
-	     <li><a href="#">One</a></li>
-	     <li><a href="#">Two</a></li>
-	     <li><a href="#">Three</a></li>
-	     </ul>
-	     </li> -->
-	     <li><a href="/">Profile</a></li>
-	     <li><a href="/pet_reg/">Add a pet</a></li>
-	     <li><a href="/edit/">Edit your profile</a></li>
+					<li><a href="/">Profile</a></li>
+					<li><a href="/pet_reg/">Add a pet</a></li>
+					<li><a href="/edit/">Edit your profile</a></li>
 				</ul>
 			</div>
 			<div class="top-bar-right">
 				<ul class="menu">
 					{% if user.is_authenticated %}
-					<!-- <li><a href="/accounts/">{{ user.username }}</a></li> -->
-					<!-- <li><a href="/suggestion/">Add Suggestion</a></li> -->
+					<li><a href="//">{{ user.username }}</a></li>
 					<li><a href="/logout/">Logout</a></li>
 					{% else %}
-					<!-- <li><a href="/register/">Register</a></li> -->
 					<li><a href="/login/">Log In</a></li>
 					{% endif %}
 				</ul>
