@@ -9,11 +9,11 @@
 			{% csrf_token %}
 			<h4 class="text-center">Edit your profile here:</h4>
 			{{ form.errors }}
-			{{ form.profile_fname.label_tag }}
+			{{ form.profile_fname.label_tag }} Current({{ prof.profile_fname }})
 			{{ form.profile_fname }}
-			{{ form.profile_lname.label_tag }}
+			{{ form.profile_lname.label_tag }} Current({{ prof.profile_lname }})
 			{{ form.profile_lname }}
-			{{ form.profile_bio.label_tag }}
+			{{ form.profile_bio.label_tag }} Current({{ prof.profile_bio }})
 			{{ form.profile_bio }}
 			<input type="submit" class="button expanded" value="Edit" />
 		</form>
