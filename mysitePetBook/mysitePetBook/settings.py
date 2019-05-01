@@ -42,14 +42,13 @@ INSTALLED_APPS = [
     'Chat',
 ]
 
-#from http://bit.ly/herokuDjangoChatSystem
+ASGI_APPLICATION = 'mysitePetBook.routing.application'
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": ['redis', 6379],
+        'BACKEND': "channels_redis.core.RedisChannelLayer",
+        'CONFIG': {
+            "hosts": [('redis', 6379)],
         },
-        "ROUTING": "Chat.routing.channel_routing",
     },
 }
 
@@ -83,7 +82,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'mysitePetBook.wsgi.application'
-ASGI_APPLICATION = 'mysitePetBook.routing.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases

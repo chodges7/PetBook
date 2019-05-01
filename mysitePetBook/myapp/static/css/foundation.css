@@ -176,7 +176,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background: #fefefe;
+  background: #f2f2f2;
   font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
   font-weight: normal;
   line-height: 1.5;
@@ -5386,7 +5386,7 @@ a.thumbnail {
           flex-wrap: wrap; }
   .top-bar,
   .top-bar ul {
-    background-color: #b8fcbc; }
+    background-color: #ffedfc; }
   .top-bar input {
     max-width: 200px;
     margin-right: 1rem; }

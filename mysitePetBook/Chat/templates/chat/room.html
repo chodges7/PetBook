@@ -1,43 +1,53 @@
-<!-- from http://bit.ly/herokuDjangoChatSystem --!>
-
 {% extends "base.html" %}
 
 {% block content %}
-{% load staticfiles %}
-<h1>{{ room.label }}</h1>
-<p class="quiet">
-Anyone with this URL can join the room and chat: 
-<code>{{ request.scheme }}://{{ request.get_host }}/{{ room.label }}</code> 
-</p>
-<p>
-<label for="handle">Your name:</label>
-<input id="handle" type="text" placeholder="handle">
-</p>
-<form id="chatform">
-	<table id="chat">
-		<tbody>
-			{% for message in messages %}
-			<tr>
-				<td>{{ message.formatted_timestamp }}</td>
-				<td>{{ message.handle }}</td>
-				<td>{{ message.message }}</td>
-			</tr> 
-			{% endfor %}
-		</tbody>
-		<tfoot>
-			<tr>
-				<td>Say something:</td>
-				<td colspan=2>
-					<input id="message" type="text" placeholder="message">
-					<button type="submit" id="go">Say it</button>
-				</td>
-		</tfoot>
-	</table>
-</form>
-{% endblock content %}
+<div class="grid-x grid-padding-x">
+	<div class="large-offset-3 medium-offset-3 small-offset-3">
+		<h4>Lobby: {{ room_name_json }}
+	</div>
+</div>
+<div class="grid-x grid-padding-x">
+	<div class="large-offset-3 medium-offset-1 small-offset-1">
+		<textarea id="chat-log" cols="100" rows="20"></textarea><br/>
+		<input id="chat-message-input" type="text" size="100"/><br/>
+		<input id="chat-message-submit" type="button" value="Send"/>
+	</div>
+</div>
+<script>
+	var roomName = {{ room_name_json }};
 
-{% block afterbody %}
-<script type="text/javascript" src='{% static "jquery-1.12.1.min.js" %}'></script>
-<script type="text/javascript" src='{% static "reconnecting-websocket.min.js" %}'></script>
-<script type="text/javascript" src='{% static "chat.js" %}'></script>
-{% endblock afterbody %}
+var chatSocket = new WebSocket(
+	'ws://' + window.location.host +
+	'/ws/chat/' + roomName + '/');
+
+chatSocket.onmessage = function(e) {
+	var data = JSON.parse(e.data);
+	var message = data['message'];
+	var user = data['user']; 
+	document.querySelector('#chat-log').value += (user + ": " +message + '\n');
+};
+
+chatSocket.onclose = function(e) {
+	console.error('Chat socket closed unexpectedly');
+};
+
+document.querySelector('#chat-message-input').focus();
+document.querySelector('#chat-message-input').onkeyup = function(e) {
+	if (e.keyCode === 13) {  // enter, return
+		document.querySelector('#chat-message-submit').click();
+	}
+};
+
+document.querySelector('#chat-message-submit').onclick = function(e) {
+	var messageInputDom = document.querySelector('#chat-message-input');
+	var message = messageInputDom.value;
+	var user = "{{ username }}";
+	chatSocket.send(JSON.stringify({
+		'user': user,
+		'message': message
+	}));
+
+	messageInputDom.value = '';
+};
+</script>
+{% endblock content %}
