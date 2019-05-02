@@ -9,6 +9,8 @@
 			{% csrf_token %}
 			<h4 class="text-center">Edit your profile here:</h4>
 			{{ form.errors }}
+			{{ form.profile_image.label_tag }} Current( {{ prof.profile_image }} )
+			{{ form.profile_image }}
 			{{ form.profile_fname.label_tag }} Current( {{ prof.profile_fname }} )
 			{{ form.profile_fname }}
 			{{ form.profile_lname.label_tag }} Current( {{ prof.profile_lname }} )

@@ -8,6 +8,7 @@ class ProfileForm(forms.Form):
     profile_bio = forms.CharField(label='Your new Bio', max_length=500)
     profile_fname = forms.CharField(label='Your corrected first name', max_length=50)
     profile_lname = forms.CharField(label='Your corrected last name', max_length=50)
+    profile_image = forms.ImageField()
 
 class BioForm(forms.Form):
     profile_bio = forms.CharField(label='Your new Bio', max_length=500)
@@ -16,6 +17,7 @@ class PetForm(forms.Form):
     pet_name = forms.CharField(label="Your pet's name", max_length=50)
     pet_species = forms.CharField(label="Your pet's species", max_length=20)
     pet_breed = forms.CharField(label="Your pet's breed", max_length=20)
+    pet_image = forms.ImageField()
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(
@@ -26,6 +28,7 @@ class RegistrationForm(UserCreationForm):
     profile_bio = forms.CharField(label='Your Bio', max_length=500)
     profile_fname = forms.CharField(label='Your first name', max_length=50)
     profile_lname = forms.CharField(label='Your last name', max_length=50)
+    profile_image = forms.ImageField()
     
     class Meta:
         model = User
@@ -42,5 +45,6 @@ class RegistrationForm(UserCreationForm):
             new_pro.profile_bio = self.cleaned_data["profile_bio"]
             new_pro.profile_fname = self.cleaned_data["profile_fname"]
             new_pro.profile_lname = self.cleaned_data["profile_lname"]
+            new_pro.profile_image = self.cleaned_data["profile_image"]
             new_pro.save()
         return user

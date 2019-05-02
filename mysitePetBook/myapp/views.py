@@ -36,6 +36,7 @@ def edit(request):
     if request.method == "POST":
         form_instance = forms.ProfileForm(request.POST)
         if form_instance.is_valid():
+            prof.profile_image = form_instance.cleaned_data["profile_image"]
             prof.profile_fname = form_instance.cleaned_data["profile_fname"]
             prof.profile_lname = form_instance.cleaned_data["profile_lname"]
             prof.profile_bio = form_instance.cleaned_data["profile_bio"]
@@ -67,12 +68,13 @@ def pet_reg(request):
     if request.method == "POST":
         form_instance = forms.PetForm(request.POST)
         if form_instance.is_valid():
-            new_pro = models.Pet()
-            new_pro.pet_name = form_instance.cleaned_data["pet_name"]
-            new_pro.pet_species = form_instance.cleaned_data["pet_species"]
-            new_pro.pet_breed = form_instance.cleaned_data["pet_breed"]
-            new_pro.pet_owner = request.user
-            new_pro.save()
+            new_pet = models.Pet()
+            new_pet.pet_owner = request.user
+            new_pet.pet_name = form_instance.cleaned_data["pet_name"]
+            new_pet.pet_image = form_instance.cleaned_data["pet_image"]
+            new_pet.pet_breed = form_instance.cleaned_data["pet_breed"]
+            new_pet.pet_species = form_instance.cleaned_data["pet_species"]
+            new_pet.save()
             form_instance = forms.PetForm()
             return redirect("/profile_page/")
     else:
