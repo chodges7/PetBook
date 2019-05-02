@@ -2,15 +2,17 @@
 
 {% block content %}
 <div class="grid-x grid-padding-x">
-	<div class="large-offset-3 medium-offset-3 small-offset-3">
+	<div class="large-offset-3 medium-offset-2 small-offset-2">
 		<h4>Lobby: {{ room_name_json }}
 	</div>
 </div>
 <div class="grid-x grid-padding-x">
-	<div class="large-offset-3 medium-offset-1 small-offset-1">
-		<textarea id="chat-log" cols="100" rows="20"></textarea><br/>
-		<input id="chat-message-input" type="text" size="100"/><br/>
-		<input id="chat-message-submit" type="button" value="Send"/>
+	<div class="large-9 medium-11 small-11 cell">
+		<div class="large-offset-4 medium-offset-2 small-offset-2">
+			<textarea id="chat-log" cols="100" rows="20"></textarea><br/>
+			<input id="chat-message-input" type="text" size="100"/>
+			<input id="chat-message-submit" type="submit" class="button" value="Send"/>
+		</div>
 	</div>
 </div>
 <script>

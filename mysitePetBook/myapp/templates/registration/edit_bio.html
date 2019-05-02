@@ -1,18 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}Editing your Profile{% endblock %}
 {% block content %}
 <div class="grid-x grid-padding-x">
 	<!-- <div class="large-4 medium-4 small-12 cell"></div> -->
 	<div class="large-4 medium-4 small-12 large-offset-4 medium-offset-4 cell">
-		<form action="/edit/" method="post">
+		<form action="/edit_bio/" method="post">
 			{% csrf_token %}
-			<h4 class="text-center">Edit your profile here:</h4>
+			<h4 class="text-center">Edit your bio here: {{ prof.profile_fname }}</h4>
 			{{ form.errors }}
-			{{ form.profile_fname.label_tag }} Current( {{ prof.profile_fname }} )
-			{{ form.profile_fname }}
-			{{ form.profile_lname.label_tag }} Current( {{ prof.profile_lname }} )
-			{{ form.profile_lname }}
 			{{ form.profile_bio.label_tag }} Current( {{ prof.profile_bio }} )
 			{{ form.profile_bio }}
 			<input type="submit" class="button expanded" value="Edit" />

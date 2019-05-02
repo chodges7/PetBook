@@ -44,8 +44,23 @@ def edit(request):
     else:
         form_instance = forms.ProfileForm()
 
-    context = { "form":form_instance, "prof":prof }
+    context = { "form":form_instance, "prof":prof, "title":"Editing profile" }
     return render(request, "registration/edit.html", context=context)
+
+@login_required(redirect_field_name='/profile_page/', login_url="/login/")
+def edit_bio(request):
+    prof = models.Profile.objects.get(profile_user=request.user)
+    if request.method == "POST":
+        form_instance = forms.BioForm(request.POST)
+        if form_instance.is_valid():
+            prof.profile_bio = form_instance.cleaned_data["profile_bio"]
+            prof.save()
+            return redirect("/")
+    else:
+        form_instance = forms.BioForm()
+
+    context = { "form":form_instance, "prof":prof, "title":"Editing Bio" }
+    return render(request, "registration/edit_bio.html", context=context)
 
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
 def pet_reg(request):
@@ -64,6 +79,7 @@ def pet_reg(request):
         form_instance = forms.PetForm()
     context = {
             "form":form_instance,
+            "title":"Pet Registration"
             }
     return render(request, "registration/pet_reg.html", context=context)
 
@@ -82,6 +98,7 @@ def register(request):
         form_instance = forms.RegistrationForm()
     context = {
             "form":form_instance,
+            "title":"Registering User",
             }
     return render(request, "registration/register.html", context=context)
 

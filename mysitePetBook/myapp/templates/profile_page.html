@@ -1,49 +1,60 @@
 {% load static %}
 {% include "base.html" %}
 
-
 {% block content %}
 <div>
 	{% if user.is_authenticated %}
-	<div class="grid-x medium-offset-1 small-offset-1">
-		<div class="row columns large-offset-1">
+	<div class="grid-x medium-offset-2 small-offset-2 large-offset-2">
+		<div class="row columns">
 			<h3>{{ body }}</h3>
 		</div>
-		<div class="large-10 cell medium-10 small-10 large-offset-1">
+		<div class="large-10 cell medium-10 small-10">
 			<div class="card-info secondary grid-padding-x">
 				<div class="card-info-content">
 					<h4>Your bio:</h4>
 					<h5>{{ bio }}</h5><p>
-					<h6><a href = "/edit/">Would you like to edit your profile?</a></h6>
+					<h6><a href = "/edit_bio/">Would you like to edit your bio?</a></h6>
 				</div>
 			</div>
 		</div>
-		<div class="large-10 cell medium-10 small-10 large-offset-1">
-			<div class="card-info secondary grid-padding-x">
-				<div class="card-info-content">
-					<h4>Your pets:</h4>
-					<div id="app-4">
-						<div v-for="todo in pets" >
-							{% verbatim %}
-							<div class="card-info secondary grid-padding-x">
-								<div class="card-info-content">
-									<h3 class="lead">{{ todo.pet }}</h3>
-									<h5>is a {{ todo.breed }} {{ todo.species }}</h5>
-								</div>
+		<div class="large-10 cell medium-10 small-10 card-info secondary grid-padding-x">
+			<div class="card-info-content">
+				<h4>Your pets:</h4>
+				<div id="app-4">
+					<div v-for="todo in pets" >
+						{% verbatim %}
+						<div class="card-info secondary grid-padding-x">
+							<div class="card-info-content">
+								<h3 class="lead">{{ todo.pet }}</h3>
+								<h5>is a {{ todo.breed }} {{ todo.species }}</h5>
 							</div>
-							{% endverbatim %}
 						</div>
-					</div> 
-					<h6><a href = "/pet_reg/">Would you like to add a pet?</a></h6>
-				</div>
+						{% endverbatim %}
+					</div>
+				</div> 
+				<h6><a href = "/pet_reg/">Would you like to add a pet?</a></h6>
 			</div>
 		</div>
-		<div class="large-10 cell medium-10 small-10 large-offset-1">
-			<div class="card-info secondary grid-padding-x">
-				<div class="card-info-content">
-					<h4>Chat system:</h4>
-					<h6><a href = "/chat/">Go to the chat rooms</a></h6>
-				</div>
+		<div class="large-10 cell medium-10 small-10 card-info secondary grid-padding-x">
+			<div class="card-info-content">
+				<h4>Chat system:</h4>
+				<table style="width:100%">
+					<tr>
+						<th></th>
+						<th>Popular chat rooms</th>
+						<th></th>
+					</tr>
+					<tr>
+						<th><h6><a href = "/chat/dogpeople/">Dog people chat</a></h6></th>
+						<th><h6><a href = "/chat/catpeople/">Cat people chat</a></h6></th>
+						<th><h6><a href = "/chat/coolpeople/">Cool people chat</a></h6></th>
+					</tr>
+					<tr>
+						<th></th>
+						<th><h6><a href = "/chat/">Make a new chat room</a></h6></th>
+						<th></th>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>
