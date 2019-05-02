@@ -217,6 +217,8 @@ mysite2/
 # Icon must end with two \r
 Icon
 
+#Google cloud storage
+PetBook.json
 
 # Thumbnails
 ._*
