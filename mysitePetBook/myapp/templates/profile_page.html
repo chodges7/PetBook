@@ -23,19 +23,21 @@
 			<div class="card-info-content">
 				<h4><u>Your pets:</u></h4>
 				<div id="app-4">
-					<div v-for="todo in pets" >
-						{% verbatim %}
-						<div class="card-info secondary grid-padding-x">
-							<div class="card-info-content">
-								<img :src="todo.image" width="200"/>
-								<h3 class="lead">{{ todo.pet }}</h3>
-								<h5>is a {{ todo.breed }} {{ todo.species }}</h5>
+					<div class="grid-container grid-x grid-padding-x">
+						<div v-for="todo in pets">
+							<div class="card-divider">
+								{% verbatim %}
+								<div class="card-info secondary card-info-content">
+									<img :src="todo.image" width="200"/>
+									<h3 class="lead">{{ todo.pet }}</h3>
+									<h5>the {{ todo.breed }} is a {{ todo.species }}</h5>
+								</div>
+								{% endverbatim %}
 							</div>
 						</div>
-						{% endverbatim %}
 					</div>
 				</div> 
-				<h6><a href = "/pet_reg/">Would you like to add a pet?</a></h6>
+				<h5><a href = "/pet_reg/">Would you like to add a pet?</a></h5>
 			</div>
 		</div>
 		<div class="large-10 cell medium-10 small-10 card-info secondary grid-padding-x">
