@@ -146,4 +146,4 @@ GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
     "/code/mysitePetBook/PetBook.json"
 )
 
-MEDIA_URL='https://storage.googeapis.com/{}/'.format(GS_BUCKET_NAME)
+MEDIA_URL = 'https://storage.googeapis.com/{}/'.format(GS_BUCKET_NAME)

@@ -10,8 +10,8 @@ class Profile(models.Model):
     profile_image = models.ImageField(upload_to='profile-pics')
 
     def __str__(self):
-        x = self.profile_fname + " " + self.profile_lname
-        return x
+        name = self.profile_fname + " " + self.profile_lname
+        return name
 
 class Pet(models.Model):
     pet_name = models.CharField(max_length=50)
@@ -19,7 +19,7 @@ class Pet(models.Model):
     pet_breed = models.CharField(max_length=20)
     pet_owner = models.ForeignKey(User, on_delete=models.CASCADE)
     pet_image = models.ImageField(upload_to='pet-pics')
-    
+
     def __str__(self):
-        x = self.pet_name + " the " + self.pet_breed + " " + self.pet_species
-        return x
+        name = self.pet_name + " the " + self.pet_breed + " " + self.pet_species
+        return name

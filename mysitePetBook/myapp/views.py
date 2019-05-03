@@ -5,8 +5,6 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.contrib.auth import logout
-from django.contrib.auth.models import Group
-from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -24,11 +22,11 @@ def profile_page(request):
     welc = "Welcome to your profile page: "
     welc += prof.profile_fname + " " + prof.profile_lname
     context = {
-            "body":welc,
-            "title":"Profile page",
-            "bio":prof.profile_bio,
-            "profile_picture":prof.profile_image.url,
-            }
+        "body":welc,
+        "title":"Profile page",
+        "bio":prof.profile_bio,
+        "profile_picture":prof.profile_image.url,
+        }
     return render(request, "profile_page.html", context=context)
 
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
@@ -46,7 +44,11 @@ def edit(request):
     else:
         form_instance = forms.ProfileForm()
 
-    context = { "form":form_instance, "prof":prof, "title":"Editing profile" }
+    context = {
+        "form":form_instance,
+        "prof":prof,
+        "title":"Editing profile"
+        }
     return render(request, "registration/edit.html", context=context)
 
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
@@ -61,7 +63,11 @@ def edit_bio(request):
     else:
         form_instance = forms.BioForm()
 
-    context = { "form":form_instance, "prof":prof, "title":"Editing Bio" }
+    context = {
+        "form":form_instance,
+        "prof":prof,
+        "title":"Editing Bio"
+        }
     return render(request, "registration/edit_bio.html", context=context)
 
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
@@ -81,9 +87,9 @@ def pet_reg(request):
     else:
         form_instance = forms.PetForm()
     context = {
-            "form":form_instance,
-            "title":"Pet Registration"
-            }
+        "form":form_instance,
+        "title":"Pet Registration"
+        }
     return render(request, "registration/pet_reg.html", context=context)
 
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
@@ -100,9 +106,9 @@ def register(request):
     else:
         form_instance = forms.RegistrationForm()
     context = {
-            "form":form_instance,
-            "title":"Registering User",
-            }
+        "form":form_instance,
+        "title":"Registering User",
+        }
     return render(request, "registration/register.html", context=context)
 
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")

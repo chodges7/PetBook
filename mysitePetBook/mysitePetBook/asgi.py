@@ -1,5 +1,3 @@
-# from http://bit.ly/herokuDjangoChatSystem
-
 import os
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Chat.settings")

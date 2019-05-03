@@ -29,7 +29,7 @@ class RegistrationForm(UserCreationForm):
     profile_fname = forms.CharField(label='Your first name', max_length=50)
     profile_lname = forms.CharField(label='Your last name', max_length=50)
     profile_image = forms.ImageField()
-    
+
     class Meta:
         model = User
         fields = ("username", "email",
