@@ -27,6 +27,7 @@ def profile_page(request):
             "body":welc,
             "title":"Profile page",
             "bio":prof.profile_bio,
+            "profile_picture":prof.profile_image.url,
             }
     return render(request, "profile_page.html", context=context)
 
@@ -34,7 +35,7 @@ def profile_page(request):
 def edit(request):
     prof = models.Profile.objects.get(profile_user=request.user)
     if request.method == "POST":
-        form_instance = forms.ProfileForm(request.POST)
+        form_instance = forms.ProfileForm(request.POST, request.FILES)
         if form_instance.is_valid():
             prof.profile_image = form_instance.cleaned_data["profile_image"]
             prof.profile_fname = form_instance.cleaned_data["profile_fname"]
@@ -66,7 +67,7 @@ def edit_bio(request):
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
 def pet_reg(request):
     if request.method == "POST":
-        form_instance = forms.PetForm(request.POST)
+        form_instance = forms.PetForm(request.POST, request.FILES)
         if form_instance.is_valid():
             new_pet = models.Pet()
             new_pet.pet_owner = request.user
@@ -92,7 +93,7 @@ def logout_view(request):
 
 def register(request):
     if request.method == "POST":
-        form_instance = forms.RegistrationForm(request.POST)
+        form_instance = forms.RegistrationForm(request.POST, request.FILES)
         if form_instance.is_valid():
             form_instance.save()
             return redirect("/")
@@ -115,6 +116,7 @@ def pets_json(request):
             "pet":item.pet_name,
             "species":item.pet_species,
             "id":item.id,
+            "image":item.pet_image.url,
             "breed":item.pet_breed,
             "owner":prof.profile_fname}]
     return JsonResponse(resp_list)

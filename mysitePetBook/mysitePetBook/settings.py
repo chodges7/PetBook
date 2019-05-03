@@ -137,6 +137,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+LOGIN_REDIRECT_URL = '/'
+
 # Django google storage
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 GS_BUCKET_NAME = 'petbook-bucket'
@@ -144,4 +146,4 @@ GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
     "/code/mysitePetBook/PetBook.json"
 )
 
-LOGIN_REDIRECT_URL = '/'
+MEDIA_URL='https://storage.googeapis.com/{}/'.format(GS_BUCKET_NAME)

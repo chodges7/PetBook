@@ -1,11 +1,9 @@
 {% extends "base.html" %}
-
-{% block title %}Pet Registration{% endblock %}
 {% block content %}
 <div class="grid-x grid-padding-x">
 	<!-- <div class="large-4 medium-4 small-12 cell"></div> -->
 	<div class="large-4 medium-4 small-12 large-offset-4 medium-offset-4 cell">
-		<form action="/pet_reg/" method="post">
+		<form action="/pet_reg/" method="post" enctype="multipart/form-data">
 			{% csrf_token %}
 			<h4 class="text-center">Register your pet</h4>
 			{{ form.errors }}
