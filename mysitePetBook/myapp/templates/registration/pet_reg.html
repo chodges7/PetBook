@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="grid-x grid-padding-x">
-	<!-- <div class="large-4 medium-4 small-12 cell"></div> -->
-	<div class="large-4 medium-4 small-12 large-offset-4 medium-offset-4 cell">
+	<div class="large-4 medium-9 small-12 large-offset-4 medium-offset-2 cell">
 		<form action="/pet_reg/" method="post" enctype="multipart/form-data">
 			{% csrf_token %}
 			<h4 class="text-center">Register your pet</h4>
@@ -11,10 +10,10 @@
 			{{ form.pet_image }}
 			{{ form.pet_name.label_tag }}
 			{{ form.pet_name }}
-			{{ form.pet_species.label_tag }}
-			{{ form.pet_species }}
 			{{ form.pet_breed.label_tag }}
 			{{ form.pet_breed }}
+			{{ form.pet_species.label_tag }}
+			{{ form.pet_species }}
 			<input type="submit" class="button expanded" value="Register" />
 		</form>
 	</div>
