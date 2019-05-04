@@ -4,10 +4,8 @@
 {% block content %}
 <div>
 	{% if user.is_authenticated %}
+	<h3 class="text-center">{{ body }}</h3>
 	<div class="grid-x medium-offset-2 small-offset-2 large-offset-2">
-		<div class="row columns">
-			<h3>{{ body }}</h3>
-		</div>
 		<div class="large-10 cell medium-10 small-10">
 			<div class="card-info secondary grid-padding-x">
 				<div class="card-info-content">
@@ -15,7 +13,20 @@
 					<img src="{{ profile_picture }}" width="200" alt="Your profile picture!"/>
 					<h4><u>Your bio:</u></h4>
 					<h5>{{ bio }}</h5><p>
-					<h6><a href = "/edit_bio/">Would you like to edit your bio?</a></h6>
+					<div id="app-3">
+						<button class="button" v-on:click="show = !show">
+							Click here to edit your profile
+						</button>
+						<transition name="fade">
+							<form action="/profile_page/" method="post" v-if="show">
+								{% csrf_token %}
+								<h4 class="text-center">Edit your bio here: {{ prof.profile_fname }}</h4>
+								{{ form }}
+								<input type="submit" class="button" value="Edit" />
+							</form>
+						</transition>
+					</p>
+					</div>
 				</div>
 			</div>
 		</div>

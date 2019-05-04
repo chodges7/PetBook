@@ -21,8 +21,17 @@ def profile_page(request):
     prof = models.Profile.objects.get(profile_user=request.user)
     welc = "Welcome to your profile page: "
     welc += prof.profile_fname + " " + prof.profile_lname
+    if request.method == "POST":
+        form = forms.BioForm(request.POST)
+        if form.is_valid():
+            prof.profile_bio = form.cleaned_data["profile_bio"]
+            prof.save()
+            return redirect("/")
+    else:
+        form = forms.BioForm()
     context = {
         "body":welc,
+        "form":form,
         "title":"Profile page",
         "bio":prof.profile_bio,
         "profile_picture":prof.profile_image.url,
@@ -50,25 +59,6 @@ def edit(request):
         "title":"Editing profile"
         }
     return render(request, "registration/edit.html", context=context)
-
-@login_required(redirect_field_name='/profile_page/', login_url="/login/")
-def edit_bio(request):
-    prof = models.Profile.objects.get(profile_user=request.user)
-    if request.method == "POST":
-        form_instance = forms.BioForm(request.POST)
-        if form_instance.is_valid():
-            prof.profile_bio = form_instance.cleaned_data["profile_bio"]
-            prof.save()
-            return redirect("/")
-    else:
-        form_instance = forms.BioForm()
-
-    context = {
-        "form":form_instance,
-        "prof":prof,
-        "title":"Editing Bio"
-        }
-    return render(request, "registration/edit_bio.html", context=context)
 
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
 def pet_reg(request):
