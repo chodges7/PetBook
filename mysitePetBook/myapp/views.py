@@ -39,6 +39,27 @@ def profile_page(request):
     return render(request, "profile_page.html", context=context)
 
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
+def new_friend(request):
+    if request.method == "POST":
+        form = forms.FriendForm(request.POST)
+        if form.is_valid():
+            new_friendship = models.Friendship()
+            friend = form.cleaned_data["friend"]
+            friend_user = models.User.objects.get(username=friend)
+            if friend == friend_user.get_username():
+                new_friendship.friend = friend_user
+                new_friendship.creator = request.user
+                new_friendship.save()
+                return redirect("/")
+    else:
+        form = forms.FriendForm()
+    context = {
+            "form":form,
+            "title":"Making a new Friend"
+            }
+    return render(request, "registration/friend.html", context=context)
+
+@login_required(redirect_field_name='/profile_page/', login_url="/login/")
 def edit(request):
     prof = models.Profile.objects.get(profile_user=request.user)
     if request.method == "POST":
@@ -52,12 +73,11 @@ def edit(request):
             return redirect("/")
     else:
         form_instance = forms.ProfileForm()
-
     context = {
-        "form":form_instance,
-        "prof":prof,
-        "title":"Editing profile"
-        }
+            "form":form_instance,
+            "prof":prof,
+            "title":"Editing profile"
+            }
     return render(request, "registration/edit.html", context=context)
 
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
@@ -77,9 +97,9 @@ def pet_reg(request):
     else:
         form_instance = forms.PetForm()
     context = {
-        "form":form_instance,
-        "title":"Pet Registration"
-        }
+            "form":form_instance,
+            "title":"Pet Registration"
+            }
     return render(request, "registration/pet_reg.html", context=context)
 
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
@@ -96,10 +116,24 @@ def register(request):
     else:
         form_instance = forms.RegistrationForm()
     context = {
-        "form":form_instance,
-        "title":"Registering User",
-        }
+            "form":form_instance,
+            "title":"Registering User",
+            }
     return render(request, "registration/register.html", context=context)
+
+@login_required(redirect_field_name='/profile_page/', login_url="/login/")
+def friends_json(request):
+    i_list = models.Friendship.objects.filter(creator=request.user)
+    resp_list = {}
+    resp_list["friends"] = []
+    for item in i_list:
+        prof = models.Profile.objects.get(profile_user=item.friend)
+        resp_list["friends"] += [{
+            "id":item.id,
+            "image":prof.profile_image.url,
+            "friend":item.friend.get_username(),
+            "created":item.created}]
+        return JsonResponse(resp_list)
 
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
 def pets_json(request):

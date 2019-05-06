@@ -19,6 +19,9 @@ class PetForm(forms.Form):
     pet_breed = forms.CharField(label="Your pet's breed", max_length=20)
     pet_image = forms.ImageField()
 
+class FriendForm(forms.Form):
+    friend = forms.CharField(label="Your new friend's username", max_length=50)
+
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(
         label="Email",

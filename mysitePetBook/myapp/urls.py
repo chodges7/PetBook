@@ -9,6 +9,8 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view()),
     path('logout/', views.logout_view),
     path('pet_reg/', views.pet_reg),
+    path('friends/', views.friends_json),
     path('register/', views.register),
+    path('new_friend/', views.new_friend),
     path('profile_page/', views.profile_page),
 ]

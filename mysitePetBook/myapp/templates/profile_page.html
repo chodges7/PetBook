@@ -20,7 +20,7 @@
 						<transition name="fade">
 							<form action="/profile_page/" method="post" v-if="show">
 								{% csrf_token %}
-								<h5 class="text-center">Type your new bio here: {{ prof.profile_fname }}</h5>
+								<h5 class="text-center">Type your new bio here:</h5>
 								{{ form }}
 								<input type="submit" class="button" value="Edit" />
 							</form>
@@ -49,6 +49,26 @@
 					</div>
 				</div> 
 				<h5><a href = "/pet_reg/">Would you like to add a pet?</a></h5>
+			</div>
+		</div>
+		<div class="large-10 cell medium-10 small-10 card-info secondary grid-padding-x">
+			<div class="card-info-content">
+				<h4><u>Your friends:</u></h4>
+				<div id="app-5">
+					<div class="grid-container grid-x grid-padding-x">
+						<div v-for="todo in friends">
+							<div class="card-divider">
+								{% verbatim %}
+								<div class="card-info secondary card-info-content">
+									<img :src="todo.image" width="200"/>
+									<h3 class="lead">{{ todo.friend }}</h3>
+								</div>
+								{% endverbatim %}
+							</div>
+						</div>
+					</div>
+				</div> 
+				<h5><a href = "/new_friend/">Would you like to make a friend?</a></h5>
 			</div>
 		</div>
 		<div class="large-10 cell medium-10 small-10 card-info secondary grid-padding-x">
