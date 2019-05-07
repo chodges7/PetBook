@@ -18,7 +18,7 @@
 		<div class="large-10 cell card-info medium-10 small-10">
 			<div class="card-info-content">
 				<div id="app-6">
-					<div v-for="todo in statuses" >
+					<div v-for="todo in statuses.slice().reverse()" >
 						{% verbatim %}
 						<div class="card-info secondary grid-padding-x">
 							<div class="card-info-content">
@@ -27,7 +27,7 @@
 								<p>authored by {{ todo.author }} on {{ todo.crated_on }}</p>
 								<p>{{ todo.num_comments }} comment(s)</p>
 								<hr>
-								<div v-for="comm in todo.comments" class="cell-info grid-x">
+								<div v-for="comm in todo.comments.slice().reverse()" class="cell-info grid-x">
 									<div class="large-offset-1 medium-offset-1">
 										<h3 class="lead">{{ comm.comment }}</h3>
 										<p>authored by {{ comm.author }} on {{ comm.created_on }}</p>
