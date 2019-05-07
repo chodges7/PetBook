@@ -22,10 +22,10 @@ def home(request):
     welc = "Welcome to the homepage: "
     welc += prof.profile_fname + " " + prof.profile_lname
     if request.method == "POST":
-        form = forms.StatusForm(request.POST)
+        form = forms.StatusForm(request.POST, request.FILES)
         if form.is_valid():
             new_status = models.Status()
-            new_stauts.status_field = form.cleaned_data["status_field"]
+            new_status.status_field = form.cleaned_data["status_field"]
             new_status.status_image = form.cleaned_data["status_image"]
             new_status.status_author = request.user
             new_status.save()
@@ -188,10 +188,11 @@ def status_json(request):
             "status":item.status_field,
             "author":item.status_author.username,
             "id":item.id,
+            "comments":comments_list,
             "image":item.status_image.url,
             "crated_on":item.crated_on,
             "num_comments":len(comments_list)}]
-        return JsonResponse(resp_list)
+    return JsonResponse(resp_list)
 
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
 def friends_json(request):
@@ -205,7 +206,7 @@ def friends_json(request):
             "image":prof.profile_image.url,
             "friend":item.friend.get_username(),
             "created":item.created}]
-        return JsonResponse(resp_list)
+    return JsonResponse(resp_list)
 
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
 def pets_json(request):
