@@ -20,7 +20,13 @@ class PetForm(forms.Form):
     pet_image = forms.ImageField()
 
 class FriendForm(forms.Form):
-    friend = forms.CharField(label="Your new friend's username", max_length=50)
+    friend = forms.CharField(validators=[friend_exists], label="Your new friend's username", max_length=50)
+
+def friend_exists(value):
+    friend = User.objects.filter(username=value)
+    if friend.count()<=0:
+        raise forms.ValidationError("Friend doesn't exist")
+    return value
 
 class StatusForm(forms.Form):
     status_image = forms.ImageField()
