@@ -22,6 +22,13 @@ class PetForm(forms.Form):
 class FriendForm(forms.Form):
     friend = forms.CharField(label="Your new friend's username", max_length=50)
 
+class StatusForm(forms.Form):
+    status_image = forms.ImageField()
+    status_field = forms.CharField(label="Your new status", max_length=240)
+
+class CommentForm(forms.Form):
+    comment_field = forms.CharField(label='Comment', max_length=240)
+
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(
         label="Email",

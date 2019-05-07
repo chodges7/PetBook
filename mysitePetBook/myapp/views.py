@@ -17,6 +17,53 @@ def index(request):
     return redirect("/profile_page/")
 
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
+def home(request):
+    prof = models.Profile.objects.get(profile_user=request.user)
+    welc = "Welcome to the homepage: "
+    welc += prof.profile_fname + " " + prof.profile_lname
+    if request.method == "POST":
+        form = forms.StatusForm(request.POST)
+        if form.is_valid():
+            new_status = models.Status()
+            new_stauts.status_field = form.cleaned_data["status_field"]
+            new_status.status_image = form.cleaned_data["status_image"]
+            new_status.status_author = request.user
+            new_status.save()
+            form = forms.StatusForm()
+            return redirect("/home/")
+    else:
+        form = forms.StatusForm()
+    context = {
+        "body":welc,
+        "form":form,
+        "title":"Homepage",
+        "comm_form":forms.CommentForm(),
+        }
+    return render(request, "homepage.html", context=context)
+
+@login_required(login_url="/login/")
+def comment_view(request, sug):
+    if request.method == "POST":
+        form_instance = forms.CommentForm(request.POST)
+        if form_instance.is_valid():
+            sug_instance = models.Status.objects.get(id=sug)
+            new_comm = models.Comment()
+            new_comm.comment_field = form_instance.cleaned_data["comment_field"]
+            new_comm.comment_status = sug_instance
+            new_comm.comment_author = request.user
+            new_comm.save()
+            return redirect("/home/")
+    else:
+        form_instance = forms.CommentForm()
+    context = {
+        "body":"Hello World Template Variable",
+        "title":"Commenting",
+        "form":form_instance,
+        "suggestion":sug,
+    }
+    return render(request, "comment.html", context=context)
+
+@login_required(redirect_field_name='/profile_page/', login_url="/login/")
 def profile_page(request):
     prof = models.Profile.objects.get(profile_user=request.user)
     welc = "Welcome to your profile page: "
@@ -26,6 +73,7 @@ def profile_page(request):
         if form.is_valid():
             prof.profile_bio = form.cleaned_data["profile_bio"]
             prof.save()
+            form = forms.BioForm()
             return redirect("/")
     else:
         form = forms.BioForm()
@@ -120,6 +168,30 @@ def register(request):
             "title":"Registering User",
             }
     return render(request, "registration/register.html", context=context)
+
+@login_required(redirect_field_name='/profile_page/', login_url="/login/")
+def status_json(request):
+    i_list = models.Status.objects.all()
+    resp_list = {}
+    resp_list["statuses"] = []
+    for item in i_list:
+        comments_list = []
+        comm_list = models.Comment.objects.filter(comment_status=item)
+        for comm in comm_list:
+            comments_list += [{
+                "comment":comm.comment_field,
+                "author":comm.comment_author.username,
+                "id":comm.id,
+                "created_on":comm.created_on
+            }]
+        resp_list["statuses"] += [{
+            "status":item.status_field,
+            "author":item.status_author.username,
+            "id":item.id,
+            "image":item.status_image.url,
+            "crated_on":item.crated_on,
+            "num_comments":len(comments_list)}]
+        return JsonResponse(resp_list)
 
 @login_required(redirect_field_name='/profile_page/', login_url="/login/")
 def friends_json(request):

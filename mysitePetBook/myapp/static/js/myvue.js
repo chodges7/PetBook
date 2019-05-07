@@ -54,3 +54,28 @@ var app5 = new Vue({
 	}
 
 })
+
+var app6 = new Vue({
+	el: '#app-6',
+	data: {
+		statuses: [],
+	},
+	//Adapted from https://stackoverflow.com/questions/36572540/vue-js-auto-reload-refresh-data-with-timer
+	created: function() {
+		this.fetchStatusList();
+		this.timer = setInterval(this.fetchStatusList, 30000);
+	},
+	methods: {
+		fetchStatusList: function() {
+			axios
+				.get('/statuses/')
+				.then(response => (this.statuses = response.data.statuses))
+			console.log(this.friends)
+		},
+		cancelAutoUpdate: function() { clearInterval(this.timer) }
+	},
+	beforeDestroy() {
+		clearInterval(this.timer)
+	}
+
+})

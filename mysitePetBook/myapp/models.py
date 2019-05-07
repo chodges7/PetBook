@@ -24,6 +24,24 @@ class Pet(models.Model):
         name = self.pet_name + " the " + self.pet_breed + " " + self.pet_species
         return name
 
+class Status(models.Model):
+    status_field = models.CharField(max_length=240)
+    crated_on = models.DateTimeField(auto_now_add=True)
+    status_image = models.ImageField(upload_to='status-pics')
+    status_author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.status_field
+
+class Comment(models.Model):
+    comment_field = models.CharField(max_length=240)
+    created_on = models.DateTimeField(auto_now_add=True)
+    comment_author = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment_status = models.ForeignKey(Status, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.comment_field
+
 #https://stackoverflow.com/questions/4564760/best-way-to-make-djangos-user-system-have-friends
 class Friendship(models.Model):
     created = models.DateTimeField(auto_now_add=True, editable=False)
