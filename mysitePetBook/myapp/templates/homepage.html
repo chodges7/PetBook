@@ -26,24 +26,23 @@
 								<h3 class="lead">{{ todo.status }}</h3>
 								<p>authored by {{ todo.author }} on {{ todo.crated_on }}</p>
 								<p>{{ todo.num_comments }} comment(s)</p>
-							</div>
-						</div>
-						<div v-for="comm in todo.comments" class="cell-info grid-x">
-							<div class="grid-padding-x large-11 small-9 medium-9 large-offset-1 medium-offset-1">
-								<div class="card-info secondary">
-									<h3 class="lead">{{ comm.comment }}</h3>
-									<p>authored by {{ comm.author }} on {{ comm.created_on }}</p>
+								<hr>
+								<div v-for="comm in todo.comments" class="cell-info grid-x">
+									<div class="large-offset-1 medium-offset-1">
+										<h3 class="lead">{{ comm.comment }}</h3>
+										<p>authored by {{ comm.author }} on {{ comm.created_on }}</p>
+									</div>
+								</div>
+								<div class="large-offset-1 medium-offset-1">
+									<form v-bind:action="'/comment/'+ todo.id+'/'" method="post">
+										{% endverbatim %}
+										{% csrf_token %}
+										{{ comm_form }}
+										{% verbatim %}
+										<input type="submit" class="button" value="Comment" />
+									</form>
 								</div>
 							</div>
-						</div>
-						<div class="large-11 small-9 medium-9 cell large-offset-1 medium-offset-1">
-							<form v-bind:action="'/comment/'+ todo.id+'/'" method="post">
-								{% endverbatim %}
-								{% csrf_token %}
-								{{ comm_form }}
-								{% verbatim %}
-								<input type="submit" class="button" value="Comment" />
-							</form>
 						</div>
 						{% endverbatim %}
 					</div>
