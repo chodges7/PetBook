@@ -24,27 +24,25 @@
 							<div class="card-info-content">
 								<img :src="todo.image" width="200"/>
 								<h3 class="lead">{{ todo.status }}</h3>
-								<p>authored by {{ todo.author }} on {{ todo.crated_on }}</p>
+								<p>authored by <a :href="'/profile_page/' + todo.author + '/'">{{ todo.author }}</a> on {{ todo.crated_on }}</p>
 								<p>{{ todo.num_comments }} comment(s)</p>
 								<hr>
 								<div v-for="comm in todo.comments.slice().reverse()" class="cell-info grid-x">
 									<div class="large-offset-1 medium-offset-1">
 										<h3 class="lead">{{ comm.comment }}</h3>
-										<p>authored by {{ comm.author }} on {{ comm.created_on }}</p>
+										<p>authored by <a :href="'/profile_page/' + comm.author + '/'">{{ comm.author }}</a> on {{ comm.created_on }}</p>
 									</div>
 								</div>
 								<div class="large-offset-1 medium-offset-1">
-									<form v-bind:action="'/comment/'+ todo.id+'/'" method="post">
+									<form :action="'/comment/'+ todo.id + '/'" method="post">
 										{% endverbatim %}
 										{% csrf_token %}
 										{{ comm_form }}
-										{% verbatim %}
 										<input type="submit" class="button" value="Comment" />
 									</form>
 								</div>
 							</div>
 						</div>
-						{% endverbatim %}
 					</div>
 				</div>
 			</div>

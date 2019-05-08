@@ -12,11 +12,11 @@ from django.contrib.auth.decorators import login_required
 from . import models
 from . import forms
 
-@login_required(redirect_field_name='/profile_page/', login_url="/login/")
+@login_required(login_url="/login/")
 def index(request):
     return redirect("/profile_page/")
 
-@login_required(redirect_field_name='/profile_page/', login_url="/login/")
+@login_required(login_url="/login/")
 def home(request):
     prof = models.Profile.objects.get(profile_user=request.user)
     welc = "Welcome to the homepage: "
@@ -63,7 +63,7 @@ def comment_view(request, sug):
     }
     return render(request, "comment.html", context=context)
 
-@login_required(redirect_field_name='/profile_page/', login_url="/login/")
+@login_required(login_url="/login/")
 def profile_page(request):
     prof = models.Profile.objects.get(profile_user=request.user)
     welc = "Welcome to your profile page: "
@@ -86,7 +86,29 @@ def profile_page(request):
         }
     return render(request, "profile_page.html", context=context)
 
-@login_required(redirect_field_name='/profile_page/', login_url="/login/")
+@login_required(login_url="/login/")
+def specific_profile(request, person):
+    #Grab user model from person argument
+    personUser = models.User.objects.get(username=person)
+    #Then grab prof model from that user
+    prof = models.Profile.objects.get(profile_user=personUser)
+    welc = "Welcome to the profile page of: "
+    welc += prof.profile_fname + " " + prof.profile_lname
+    title = person + "'s profile page"
+    theirPets = models.Pet.objects.filter(pet_owner=personUser)
+    theirFriends = models.Friendship.objects.filter(creator=personUser)
+    context = {
+        "body":welc,
+        "title":title,
+        "theirPets":theirPets,
+        "bio":prof.profile_bio,
+        "theirFriends":theirFriends,
+        "profile_picture":prof.profile_image.url,
+        }
+    return render(request, "specific_profile.html", context=context)
+
+
+@login_required(login_url="/login/")
 def new_friend(request):
     if request.method == "POST":
         form = forms.FriendForm(request.POST)
@@ -107,7 +129,7 @@ def new_friend(request):
             }
     return render(request, "registration/friend.html", context=context)
 
-@login_required(redirect_field_name='/profile_page/', login_url="/login/")
+@login_required(login_url="/login/")
 def edit(request):
     prof = models.Profile.objects.get(profile_user=request.user)
     if request.method == "POST":
@@ -128,7 +150,7 @@ def edit(request):
             }
     return render(request, "registration/edit.html", context=context)
 
-@login_required(redirect_field_name='/profile_page/', login_url="/login/")
+@login_required(login_url="/login/")
 def pet_reg(request):
     if request.method == "POST":
         form_instance = forms.PetForm(request.POST, request.FILES)
@@ -150,7 +172,7 @@ def pet_reg(request):
             }
     return render(request, "registration/pet_reg.html", context=context)
 
-@login_required(redirect_field_name='/profile_page/', login_url="/login/")
+@login_required(login_url="/login/")
 def logout_view(request):
     logout(request)
     return redirect("/login/")
@@ -169,7 +191,7 @@ def register(request):
             }
     return render(request, "registration/register.html", context=context)
 
-@login_required(redirect_field_name='/profile_page/', login_url="/login/")
+@login_required(login_url="/login/")
 def status_json(request):
     i_list = models.Status.objects.all()
     resp_list = {}
@@ -194,7 +216,7 @@ def status_json(request):
             "num_comments":len(comments_list)}]
     return JsonResponse(resp_list)
 
-@login_required(redirect_field_name='/profile_page/', login_url="/login/")
+@login_required(login_url="/login/")
 def friends_json(request):
     i_list = models.Friendship.objects.filter(creator=request.user)
     resp_list = {}
@@ -208,9 +230,41 @@ def friends_json(request):
             "created":item.created}]
     return JsonResponse(resp_list)
 
-@login_required(redirect_field_name='/profile_page/', login_url="/login/")
+@login_required(login_url="/login/")
+def friends_json_slug(request, person):
+    personUser = models.User.objects.get(username=person)
+    i_list = models.Friendship.objects.filter(creator=personUser)
+    resp_list = {}
+    resp_list["friends"] = []
+    for item in i_list:
+        prof = models.Profile.objects.get(profile_user=item.friend)
+        resp_list["friends"] += [{
+            "id":item.id,
+            "image":prof.profile_image.url,
+            "friend":item.friend.get_username(),
+            "created":item.created}]
+    return JsonResponse(resp_list)
+
+@login_required(login_url="/login/")
 def pets_json(request):
     i_list = models.Pet.objects.filter(pet_owner=request.user)
+    resp_list = {}
+    resp_list["pets"] = []
+    for item in i_list:
+        prof = models.Profile.objects.get(profile_user=item.pet_owner)
+        resp_list["pets"] += [{
+            "pet":item.pet_name,
+            "species":item.pet_species,
+            "id":item.id,
+            "image":item.pet_image.url,
+            "breed":item.pet_breed,
+            "owner":prof.profile_fname}]
+    return JsonResponse(resp_list)
+
+@login_required(login_url="/login/")
+def pets_json_slug(request, person):
+    personUser = models.User.objects.get(username=person)
+    i_list = models.Pet.objects.filter(pet_owner=personUser)
     resp_list = {}
     resp_list["pets"] = []
     for item in i_list:

@@ -49,5 +49,5 @@ class Friendship(models.Model):
     friend = models.ForeignKey(User, related_name="friend_set", on_delete=models.CASCADE)
 
     def __str__(self):
-        name = self.creator.get_username() + " friended " + self.friend.get_username()
+        name = self.friend.get_username()
         return name

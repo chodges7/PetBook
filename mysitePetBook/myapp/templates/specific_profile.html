@@ -1,0 +1,55 @@
+{% load static %}
+{% include "base.html" %}
+{% block content %}
+<div>
+	{% if user.is_authenticated %}
+	<h3 class="text-center">{{ body }}</h3>
+	<div class="grid-x medium-offset-2 small-offset-2 large-offset-2">
+		<div class="large-10 cell medium-10 small-10">
+			<div class="card-info secondary grid-padding-x">
+				<div class="card-info-content">
+					<h4><u>Their picture:</u></h4>
+					<img src="{{ profile_picture }}" width="200" alt="Their profile picture!"/>
+					<h4><u>Their bio:</u></h4>
+					<h5>{{ bio }}</h5><p>
+				</div>
+			</div>
+		</div>
+		<div class="large-10 cell medium-10 small-10 card-info secondary grid-padding-x">
+			<div class="card-info-content">
+				<h4><u>Their pets:</u></h4>
+				<div class="grid-container grid-x grid-padding-x">
+					{% for todo in theirPets %}
+					<div class="card-divider">
+						<div class="card-info secondary card-info-content">
+							<!-- <img src="{{ todo.image }}" width="200"/> --!>
+							<h3 class="lead">{{ todo }}</h3>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		<div class="large-10 cell medium-10 small-10 card-info secondary grid-padding-x">
+			<div class="card-info-content">
+				<h4><u>Their friends:</u></h4>
+				<div class="grid-container grid-x grid-padding-x">
+					{% for todo in theirFriends %}
+					<div class="card-divider">
+						<div class="card-info secondary card-info-content">
+						<!-- <img src="{{ todo }}" width="200"/> --!>
+							<h3 class="lead">{{ todo }}</h3>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		{% endif %}
+	</div>
+	{% endblock %}
+
+	{% block scripts %}
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="{% static "js/myvue.js" %}"></script>
+	{% endblock %}
