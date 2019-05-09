@@ -97,7 +97,9 @@ def specific_profile(request, person):
     title = person + "'s profile page"
     theirPets = models.Pet.objects.filter(pet_owner=personUser)
     theirFriends = models.Friendship.objects.filter(creator=personUser)
+    chat = "/chat/" + request.user.username + "-" + person
     context = {
+        "chat":chat,
         "body":welc,
         "title":title,
         "theirPets":theirPets,
@@ -222,12 +224,20 @@ def friends_json(request):
     resp_list = {}
     resp_list["friends"] = []
     for item in i_list:
+        accepted = False
+        j_list = models.Friendship.objects.filter(creator=item.friend)
+        for todo in j_list:
+            if todo.friend == item.creator:
+                accepted = True
         prof = models.Profile.objects.get(profile_user=item.friend)
         resp_list["friends"] += [{
             "id":item.id,
             "image":prof.profile_image.url,
             "friend":item.friend.get_username(),
-            "created":item.created}]
+            "creator":item.creator.get_username(),
+            "created":item.created,
+            "accepted":accepted}]
+            
     return JsonResponse(resp_list)
 
 @login_required(login_url="/login/")

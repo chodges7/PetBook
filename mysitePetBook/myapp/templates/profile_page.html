@@ -32,7 +32,7 @@
 		</div>
 		<div class="large-10 cell medium-10 small-10 card-info secondary grid-padding-x">
 			<div class="card-info-content">
-				<h4><u>Your pets:</u></h4>
+				<h4><u>Your pets:</u> <a href="/pet_reg/">Add a pet</a></h4>
 				<div id="app-4">
 					<div class="grid-container grid-x grid-padding-x">
 						<div v-for="todo in pets">
@@ -48,27 +48,28 @@
 						</div>
 					</div>
 				</div> 
-				<h5><a href = "/pet_reg/">Would you like to add a pet?</a></h5>
+				<h6><a href="/pet_reg/">Add a pet</a></h6>
 			</div>
 		</div>
 		<div class="large-10 cell medium-10 small-10 card-info secondary grid-padding-x">
 			<div class="card-info-content">
-				<h4><u>Your friends:</u></h4>
+				<h4><u>Your friends:</u> <a href="/new_friend/">Add a friend</a></h4>
 				<div id="app-5">
 					<div class="grid-container grid-x grid-padding-x">
 						<div v-for="todo in friends">
-							<div class="card-divider">
 								{% verbatim %}
 								<div class="card-info secondary card-info-content">
-									<img :src="todo.image" width="200"/>
-									<h3 class="lead">{{ todo.friend }}</h3>
+									<img :src="todo.image" height="100" width="200">
+									<h3 class="lead"><a :href="'/profile_page/' + todo.friend + '/'">{{ todo.friend }}</a> 
+									 - <a :href="'/chat/' + todo.creator + '-' + todo.friend + '/'">Chat me!</a></h3>
+									<h6 class="text-center" v-if="todo.accepted">They <b>have</b> friended you back.</h6>
+									<h6 class="text-cneter" v-else="todo.accepted">They <b>haven't</b> friended you back yet.</h6>
 								</div>
 								{% endverbatim %}
-							</div>
 						</div>
 					</div>
 				</div> 
-				<h5><a href = "/new_friend/">Would you like to make a friend?</a></h5>
+				<h6><a href="/new_friend/">Add a friend</a></h6>
 			</div>
 		</div>
 		<div class="large-10 cell medium-10 small-10 card-info secondary grid-padding-x">
