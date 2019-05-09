@@ -126,9 +126,9 @@ def new_friend(request):
     else:
         form = forms.FriendForm()
     context = {
-            "form":form,
-            "title":"Making a new Friend"
-            }
+        "form":form,
+        "title":"Making a new Friend"
+        }
     return render(request, "registration/friend.html", context=context)
 
 @login_required(login_url="/login/")
@@ -146,10 +146,10 @@ def edit(request):
     else:
         form_instance = forms.ProfileForm()
     context = {
-            "form":form_instance,
-            "prof":prof,
-            "title":"Editing profile"
-            }
+        "form":form_instance,
+        "prof":prof,
+        "title":"Editing profile"
+        }
     return render(request, "registration/edit.html", context=context)
 
 @login_required(login_url="/login/")
@@ -169,9 +169,9 @@ def pet_reg(request):
     else:
         form_instance = forms.PetForm()
     context = {
-            "form":form_instance,
-            "title":"Pet Registration"
-            }
+        "form":form_instance,
+        "title":"Pet Registration"
+        }
     return render(request, "registration/pet_reg.html", context=context)
 
 @login_required(login_url="/login/")
@@ -188,9 +188,9 @@ def register(request):
     else:
         form_instance = forms.RegistrationForm()
     context = {
-            "form":form_instance,
-            "title":"Registering User",
-            }
+        "form":form_instance,
+        "title":"Registering User",
+        }
     return render(request, "registration/register.html", context=context)
 
 @login_required(login_url="/login/")
@@ -237,7 +237,6 @@ def friends_json(request):
             "creator":item.creator.get_username(),
             "created":item.created,
             "accepted":accepted}]
-            
     return JsonResponse(resp_list)
 
 @login_required(login_url="/login/")

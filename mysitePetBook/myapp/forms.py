@@ -21,7 +21,7 @@ class PetForm(forms.Form):
 
 def friend_exists(value):
     friend = User.objects.filter(username=value)
-    if friend.count()<=0:
+    if friend.count() <= 0:
         raise forms.ValidationError("Friend doesn't exist")
     return value
 
